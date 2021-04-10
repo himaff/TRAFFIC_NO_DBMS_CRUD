@@ -1,0 +1,79 @@
+[
+    {
+        "id": 1,
+        "date": "2020-01-15",
+        "place": "Abobo",
+        "nb_victime": 14,
+        "faulty": "gbaka"
+    },
+    {
+        "id": 2,
+        "date": "2020-02-15",
+        "place": "Cocody",
+        "nb_victime": 4,
+        "faulty": "gbaka"
+    },
+    {
+        "date": "2019-12-25",
+        "place": "Treichville",
+        "nb_victime": "35",
+        "faulty": "Chauffeur ivre",
+        "id": 3
+    },
+    {
+        "date": "2020-12-18",
+        "place": "Bouak\u00e9",
+        "nb_victime": "35",
+        "faulty": "Moto",
+        "id": 4
+    },
+    {
+        "date": "2020-12-18",
+        "place": "Bouak\u00e9",
+        "nb_victime": "35",
+        "faulty": "Moto",
+        "id": 5
+    },
+    {
+        "date": "2021-01-01",
+        "place": "Agboville",
+        "nb_victime": "1",
+        "faulty": "Camion",
+        "id": 6
+    },
+    {
+        "date": "2021-01-01",
+        "place": "Agboville",
+        "nb_victime": "1",
+        "faulty": "Camion",
+        "id": 7
+    },
+    {
+        "date": "2021-01-01",
+        "place": "Agboville",
+        "nb_victime": "1",
+        "faulty": "Camion",
+        "id": 8
+    },
+    {
+        "date": "2020-04-25",
+        "place": "Bounoua",
+        "nb_victime": "1",
+        "faulty": "Pieton",
+        "id": 9
+    },
+    {
+        "date": "2007-10-24",
+        "place": "Bouak\u00e9",
+        "nb_victime": "45",
+        "faulty": "Camion",
+        "id": 10
+    },
+    {
+        "date": "2007-10-24",
+        "place": "Bouak\u00e9",
+        "nb_victime": "45",
+        "faulty": "Camion",
+        "id": 11
+    }
+]
