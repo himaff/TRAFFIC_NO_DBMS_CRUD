@@ -4,6 +4,7 @@ require 'controllers/functions.php';
 
 $accidents = getAccidents($_GET['search']);
 
+
 $labelsFaulty = [];
 $labelsPlace = [];
 
