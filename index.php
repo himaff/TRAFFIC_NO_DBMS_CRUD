@@ -1,7 +1,40 @@
 <?php
-require 'controllers/accidents.php';
+require 'controllers/functions.php';
 
-$accidents = getAccidents();
+
+$accidents = getAccidents($_GET['search']);
+
+$labelsFaulty = [];
+$labelsPlace = [];
+
+
+
+foreach (group_by("faulty", $accidents) as $key => $faulties) {
+
+  foreach($faulties as $faulty) {
+    $lFaulty[$key] += (int)$faulty['nb_victime'];
+  }
+}  
+
+arsort($lFaulty);
+
+foreach($lFaulty as $key => $faulty) {
+  $labelsFaulty[$key] = $faulty;
+}
+
+
+foreach (group_by("place", $accidents) as $key => $places) {
+
+  foreach($places as $place) {
+    $lPlace[$key] += (int)$place['nb_victime'];
+  }
+}  
+
+arsort($lPlace);
+
+foreach($lPlace as $key => $place) {
+  $labelsPlace[$key] = $place;
+}
 
 ?>
 
@@ -14,13 +47,29 @@ $accidents = getAccidents();
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
+    <script src="https://kit.fontawesome.com/65485006a0.js" crossorigin="anonymous"></script>
+    <title>TRAFFIC</title>
+    <style>
+        .row {
+          padding-bottom: 0.5em;
+        }
+    </style>
+    
   </head>
   <body>
     <div class="container-fluid">
-      <h1>Donnees</h1>
-      <a class="btn btn-danger" href="create.php" role="button">Create Accident</a>
+      <h1>TRAFFIC <?php echo $_GET['search'] ? $_GET['search'] : date('Y'); ?></h1>
+      <div class="row">
+        <a class="btn btn-danger" href="create.php" role="button">Create Accident</a>
+      </div>
+
+      <div class="row justify-content-end p-2">
+      <!--Current search-->
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" name="search" placeholder="Rechercher une année" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+      </form>
+      </div>
       <div class="row">
         <div class="col-8 pr-0">
           <div class="card">
@@ -42,24 +91,52 @@ $accidents = getAccidents();
           
       </div>
 
-      <table class="table">
-        <thead>
-          <tr>
+      <div class="row">
+        <div id="reactTable"></div>
+        <table class="table">
+          <thead>
+            <tr>
             <th>
-              Lieu
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-        <?php foreach($accidents as $accident): ?>
-          <tr>
+            Date
+              </th>
+              <th>
+                Lieu
+              </th>
+              <th>
+                Mise en cause
+              </th>
+              <th>
+                Nbre de Victime
+              </th>
+              <th>
+                
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+          <?php foreach($accidents as $accident): ?>
+            <tr>
             <td>
-            <?php echo $accident['place']; ?>
-            </td>
-          </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
+              <?php echo $accident['date']; ?>
+              </td>
+              <td>
+              <?php echo $accident['place']; ?>
+              </td>
+              <td>
+              <?php echo $accident['faulty']; ?>
+              </td>
+              <td>
+              <?php echo $accident['nb_victime']; ?>
+              </td>
+              <td>
+              
+              </td>
+            </tr>
+            <?php endforeach; ?>
+          </tbody>
+        
+        </table>
+      </div>
     </div>
     
 
@@ -70,6 +147,7 @@ $accidents = getAccidents();
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+    
       var ctx = document.getElementById('graphVictim');
       var graphVictim = new Chart(ctx, {
           type: 'bar',
@@ -77,7 +155,7 @@ $accidents = getAccidents();
               labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
               datasets: [{
                   label: 'VICTIMS',
-                  data: [12, 19, 3, 5, 2, 15, 45],
+                  data: <?php echo json_encode(array_values(get_year_data($accidents, $_GET['search'] ? $_GET['search'] : NULL ))) ?>,
                   backgroundColor: [
                       'rgba(255, 99, 132, 0.2)',
                       'rgba(54, 162, 235, 0.2)',
@@ -111,10 +189,10 @@ $accidents = getAccidents();
       var graphPlace = new Chart(ctx, {
           type: 'bar',
           data: {
-              labels: ['Abobo', 'Treichvile', 'Cocody'],
+              labels: <?php echo json_encode(array_keys(array_slice($labelsPlace, 0, 3))) ?>,
               datasets: [{
                   label: 'VICTIMS',
-                  data: [12, 19, 45],
+                  data: <?php echo json_encode(array_values(array_slice($labelsPlace, 0, 3))) ?>,
                   backgroundColor: [
                       'rgba(255, 99, 132, 0.2)',
                       'rgba(54, 162, 235, 0.2)',
@@ -141,10 +219,11 @@ $accidents = getAccidents();
       var graphPlace = new Chart(ctx, {
           type: 'bar',
           data: {
-              labels: ['UTB', 'GBAKA', 'TAXI'],
+              labels: <?php echo json_encode(array_keys(array_slice($labelsFaulty, 0, 3))) ?>,
               datasets: [{
                   label: 'VICTIMS',
-                  data: [12, 19, 45],
+                  
+                  data: <?php echo json_encode(array_values(array_slice($labelsFaulty, 0, 3))) ?>,
                   backgroundColor: [
                       'rgba(255, 99, 132, 0.2)',
                       'rgba(54, 162, 235, 0.2)',
@@ -167,5 +246,6 @@ $accidents = getAccidents();
           }
       });
     </script>
+    
   </body>
 </html>

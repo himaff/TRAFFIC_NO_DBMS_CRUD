@@ -1,0 +1,27 @@
+{
+  "name": "traffic_no_dbms_crud",
+  "version": "1.0.0",
+  "description": "visualisation des accidents de la route",
+  "main": "main.js",
+  "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marclastar/TRAFFIC_NO_DBMS_CRUD.git"
+  },
+  "author": "Marc AFFECHI",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marclastar/TRAFFIC_NO_DBMS_CRUD/issues"
+  },
+  "homepage": "https://github.com/marclastar/TRAFFIC_NO_DBMS_CRUD#readme"
+}
