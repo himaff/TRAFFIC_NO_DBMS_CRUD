@@ -1,7 +1,7 @@
 <?php
 
 function getAccidents($search=NULL) {
-    ($search==NULL) ?: $search= date('Y');
+    ($search==NULL) ?$search= date('Y'): $search= $search;
     $datas = json_decode(file_get_contents(dirname(__DIR__, 1)."/db/accidents.json"), true);
     $newData = [];
     if ($search != NULL){
