@@ -15,12 +15,33 @@ function getAccidents($search=NULL) {
     return $search ? $newData : $datas;
 }
 
+function getAccidentsTxt(){
+    $file = fopen(dirname(__DIR__, 1)."/db/db.txt", "r");
+    $datas=[];
+    while (!feof($file)) {
+        $contents = fgets($file);
+        $cList = explode("|", $contents);
+        $data = [
+            "id" => $cList[0],
+            "date" => $cList[1],
+            "place" => $cList[2],
+            "nb_victime" => $cList[3],
+            "faulty" => $cList[4]
+        ];
+        array_push($datas, $data);
+    }
+
+    return $datas;
+}
+
 function createAccident($data) {
     $accidents = getAccidents();
     $data['id'] = end($accidents)['id'] + 1;
     array_push($accidents, $data);
+    $dataTxt = "\n".$data['id']."|".$data["date"]."|".$data["place" ]."|".$data["nb_victime"]."|".$data["faulty"];
         
     file_put_contents(dirname(__DIR__, 1)."/db/accidents.json", json_encode($accidents, JSON_PRETTY_PRINT));
+    file_put_contents(dirname(__DIR__, 1)."/db/db.txt", $dataTxt, FILE_APPEND);
 }
 
 

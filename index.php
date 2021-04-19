@@ -1,7 +1,7 @@
 <?php
 require 'controllers/functions.php';
 
-
+$_GET['search'] ? $_GET['search'] : null;
 $accidents = getAccidents($_GET['search']);
 
 
